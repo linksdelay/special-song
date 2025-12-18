@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Fahira ❤️</title>
+    <title>Spesial Untuk Fahira ❤️</title>
     <!-- Import Font Google yang estetik -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -11,7 +11,6 @@
         /* --- CSS STYLING --- */
         body {
             font-family: 'Poppins', sans-serif;
-            /* Background gradasi pink peach yang lembut & romantis */
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
             display: flex;
             justify-content: center;
@@ -20,9 +19,55 @@
             margin: 0;
             padding: 20px;
             color: #444;
+            overflow: hidden; /* Mencegah scroll saat overlay aktif */
         }
 
-        /* Kartu Utama (Glassmorphism Effect) */
+        /* --- LAYAR PEMBUKA (OVERLAY) --- */
+        /* Ini trik agar musik bisa jalan di HP (butuh interaksi klik) */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85); /* Latar gelap transparan */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #overlay h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .btn-open {
+            background: #ff6b81;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(255, 107, 129, 0.6);
+            animation: pulse-btn 2s infinite;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 107, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0); }
+        }
+
+        /* --- KARTU UTAMA --- */
         .player-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -36,9 +81,14 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.8);
+            
+            /* Sembunyikan kartu di awal, muncul setelah klik overlay */
+            opacity: 0; 
+            transform: scale(0.9);
+            transition: all 1s ease;
         }
 
-        /* Hiasan Hati Latar Belakang */
+        /* Hiasan Hati Background */
         .player-card::before {
             content: "❤️";
             position: absolute;
@@ -50,7 +100,7 @@
             z-index: 0;
         }
 
-        /* Container Piringan Hitam */
+        /* Vinyl Container */
         .cover-container {
             width: 220px;
             height: 220px;
@@ -59,18 +109,17 @@
             z-index: 1;
         }
 
-        /* Gambar Album (Bentuk Bulat) */
         .album-cover {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 50%;
+            border-radius: 50%; /* Membuat gambar jadi bulat */
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             border: 6px solid white;
             transition: all 0.5s ease;
         }
 
-        /* Class untuk animasi putar (ditambah via JS) */
+        /* Animasi Berputar */
         .rotate {
             animation: spin 8s linear infinite;
         }
@@ -95,48 +144,43 @@
             border: 2px solid #ddd;
         }
 
-        /* Teks Judul & Artis */
-        h2 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 600;
-            color: #2c3e50;
-            z-index: 1;
-            position: relative;
-        }
+        h2 { margin: 0; font-size: 20px; font-weight: 600; color: #2c3e50; z-index: 1; position: relative; }
+        p.subtitle { font-size: 13px; color: #888; margin-top: 5px; margin-bottom: 25px; z-index: 1; position: relative; letter-spacing: 1px; text-transform: uppercase; }
 
-        p.subtitle {
-            font-size: 13px;
-            color: #888;
-            margin-top: 5px;
-            margin-bottom: 25px;
-            z-index: 1;
-            position: relative;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Kustomisasi Audio Player */
+        /* Audio Player (Hidden tapi bekerja) */
         audio {
-            width: 100%;
-            height: 40px;
-            border-radius: 20px;
+            display: none; 
+        }
+
+        /* Tombol Kontrol Manual (Play/Pause) */
+        .music-controls {
             margin-bottom: 20px;
-            outline: none;
             z-index: 1;
             position: relative;
         }
         
-        /* CSS Hack untuk mewarnai player audio di Chrome/Webkit */
-        audio::-webkit-media-controls-panel {
-            background-color: #f1f3f4;
+        .control-btn {
+            background: none;
+            border: 2px solid #ff6b81;
+            color: #ff6b81;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: #ff6b81;
+            color: white;
         }
 
         /* Kotak Lirik */
         .lyrics-box {
-            height: 130px;
+            height: 140px;
             overflow-y: auto;
-            background: #fff0f5; /* Lavender blush */
+            background: #fff0f5;
             padding: 15px;
             border-radius: 15px;
             font-size: 13px;
@@ -151,18 +195,10 @@
         }
 
         /* Scrollbar Halus */
-        .lyrics-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .lyrics-box::-webkit-scrollbar-thumb {
-            background: #ffb7b2;
-            border-radius: 10px;
-        }
-        .lyrics-box::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .lyrics-box::-webkit-scrollbar { width: 5px; }
+        .lyrics-box::-webkit-scrollbar-thumb { background: #ffb7b2; border-radius: 10px; }
 
-        /* Tombol Aksi (WhatsApp) */
+        /* Tombol WhatsApp */
         .btn-love {
             display: inline-block;
             background: linear-gradient(45deg, #ff6b81, #ff4757);
@@ -177,39 +213,39 @@
             position: relative;
             z-index: 1;
         }
-
-        .btn-love:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 71, 87, 0.4);
-        }
         
-        /* Responif untuk HP kecil */
-        @media (max-width: 380px) {
-            .cover-container { width: 180px; height: 180px; }
-            .player-card { padding: 30px 20px; }
-        }
+        .btn-love:hover { transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <div class="player-card">
-        <!-- Area Visual Vinyl -->
+    <!-- LAYAR PEMBUKA (Solusi Autoplay di HP) -->
+    <div id="overlay">
+        <h1>Hai Fahira... 👋</h1>
+        <p style="font-size: 14px; margin-bottom: 30px; opacity: 0.8; max-width: 80%;">Ada pesan spesial buat kamu.<br>Klik tombol di bawah ya.</p>
+        <button class="btn-open" onclick="startMusic()">Buka Pesan 💌</button>
+    </div>
+
+    <!-- KONTEN UTAMA -->
+    <div class="player-card" id="mainCard">
         <div class="cover-container">
             <div class="center-hole"></div>
-            <!-- PENTING: Pastikan nama file gambarmu adalah 'cover.jpg' -->
+            <!-- Gambar Album: Pastikan file bernama cover.jpg -->
             <img src="cover.jpg" alt="Fahira Art" class="album-cover" id="disk" onerror="this.src='https://images.unsplash.com/photo-1620662736427-b8a198f52a4d?q=80&w=1000&auto=format&fit=crop'">
         </div>
 
-        <!-- Detail Lagu -->
         <h2>Kamulah Semestaku</h2>
         <p class="subtitle">Robi</p>
 
-        <!-- Audio Player -->
-        <!-- PENTING: Pastikan nama file lagumu adalah 'lagu.mp3' -->
-        <audio id="audioPlayer" controls>
+        <!-- Audio Player: Pastikan file bernama lagu.mp3 -->
+        <audio id="audioPlayer" loop>
             <source src="lagu.mp3" type="audio/mpeg">
-            Browser kamu tidak mendukung audio.
         </audio>
+
+        <!-- Kontrol Manual Kecil -->
+        <div class="music-controls">
+            <button class="control-btn" onclick="toggleMusic()">⏯ Play/Pause Musik</button>
+        </div>
 
         <!-- Lirik Lagu -->
         <div class="lyrics-box">
@@ -237,37 +273,56 @@
             Sehat-sehat di sana ya.
         </div>
 
-        <!-- Tombol CTA -->
-        <!-- Link WhatsApp aktif ke nomor Capt Robi -->
+        <!-- Tombol WA -->
         <a href="https://wa.me/6281385097709?text=Iya%20sayang%2C%20aku%20maafin%20kok.%20Lagunya%20bagus%20banget%20%E2%9D%A4%EF%B8%8F" class="btn-love">
             Mau maafin aku gak? 🥺
         </a>
     </div>
 
-    <!-- SCRIPT LOGIKA -->
     <script>
+        const overlay = document.getElementById('overlay');
+        const mainCard = document.getElementById('mainCard');
         const audio = document.getElementById('audioPlayer');
         const disk = document.getElementById('disk');
 
-        // Saat tombol play ditekan -> Tambahkan kelas animasi
-        audio.onplay = function() {
-            disk.classList.add('rotate');
-            disk.style.animationPlayState = 'running';
+        // Fungsi saat tombol Buka Pesan diklik
+        function startMusic() {
+            // 1. Coba mainkan musik
+            var playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Musik berhasil jalan
+                    disk.classList.add('rotate');
+                    disk.style.animationPlayState = 'running';
+                })
+                .catch(error => {
+                    // Jika masih gagal, beri tahu user
+                    console.log("Audio autoplay prevented");
+                });
+            }
+
+            // 2. Hilangkan overlay dengan animasi
+            overlay.style.opacity = '0';
+            
+            // 3. Tampilkan kartu utama
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                mainCard.style.opacity = '1';
+                mainCard.style.transform = 'scale(1)';
+            }, 800);
         }
 
-        // Saat tombol pause ditekan -> Hentikan animasi di posisi terakhir
-        audio.onpause = function() {
-            disk.style.animationPlayState = 'paused';
-        }
-
-        // Saat audio diputar lagi (setelah pause)
-        audio.onplaying = function() {
-            disk.style.animationPlayState = 'running';
-        }
-        
-        // Saat lagu selesai -> Reset animasi
-        audio.onended = function() {
-            disk.classList.remove('rotate');
+        // Fungsi Play/Pause manual
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                disk.classList.add('rotate');
+                disk.style.animationPlayState = 'running';
+            } else {
+                audio.pause();
+                disk.style.animationPlayState = 'paused';
+            }
         }
     </script>
 
