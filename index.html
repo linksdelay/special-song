@@ -221,8 +221,12 @@
 
     <!-- LAYAR PEMBUKA (Solusi Autoplay di HP) -->
     <div id="overlay">
-        <h1>Hai Fahira... 👋</h1>
-        <p style="font-size: 14px; margin-bottom: 30px; opacity: 0.8; max-width: 80%;">Ada pesan spesial buat kamu.<br>Klik tombol di bawah ya.</p>
+        <h1>Hai Sayanggg ❤️</h1>
+        <p style="font-size: 14px; margin-bottom: 30px; opacity: 0.8; max-width: 80%;">
+            Ada pesan spesial buat kamu.<br>
+            Besarkan volume HP kamu dulu ya! 🔊<br>
+            Lalu klik tombol di bawah.
+        </p>
         <button class="btn-open" onclick="startMusic()">Buka Pesan 💌</button>
     </div>
 
@@ -238,7 +242,8 @@
         <p class="subtitle">Robi</p>
 
         <!-- Audio Player: Pastikan file bernama lagu.mp3 -->
-        <audio id="audioPlayer" loop>
+        <!-- Preload auto membantu loading lebih cepat di HP -->
+        <audio id="audioPlayer" loop preload="auto">
             <source src="lagu.mp3" type="audio/mpeg">
         </audio>
 
@@ -285,8 +290,16 @@
         const audio = document.getElementById('audioPlayer');
         const disk = document.getElementById('disk');
 
+        // DETEKTIF ERROR: Cek kalau lagu gagal dimuat
+        audio.addEventListener('error', function(e) {
+            alert("⚠️ Musik Gagal Dimuat! \nKemungkinan besar nama file di GitHub tidak cocok. \nPastikan nama file kamu 'lagu.mp3' (huruf kecil semua), bukan 'Lagu.mp3' atau 'LAGU.mp3'.");
+        }, true);
+
         // Fungsi saat tombol Buka Pesan diklik
         function startMusic() {
+            // Tips: Set volume ke 100%
+            audio.volume = 1.0;
+            
             // 1. Coba mainkan musik
             var playPromise = audio.play();
 
@@ -297,8 +310,8 @@
                     disk.style.animationPlayState = 'running';
                 })
                 .catch(error => {
-                    // Jika masih gagal, beri tahu user
-                    console.log("Audio autoplay prevented");
+                    // Jika masih gagal (biasanya karena belum load atau policy)
+                    console.log("Audio autoplay prevented:", error);
                 });
             }
 
